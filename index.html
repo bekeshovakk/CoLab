@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=register.html">
     <title>CoLab</title>
 </head>
 <body>
+    <script>
+      const isLoggedIn = localStorage.getItem('colab_is_logged_in');
+      
+      if (isLoggedIn === 'true') {
+        window.location.href = 'profile.html';
+      } else {
+        window.location.href = 'register.html';
+      }
+    </script>
 </body>
 </html>
