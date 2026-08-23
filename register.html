@@ -54,25 +54,35 @@
     const passwordValue = document.getElementById('passwordInput').value;
     const statusValue = document.getElementById('statusSelect').value;
 
-    const savedName = localStorage.getItem('colab_user_name');
-    const savedPassword = localStorage.getItem('colab_user_password');
+    // Достаем список ВСЕХ зарегистрированных пользователей на этом устройстве
+    let usersList = JSON.parse(localStorage.getItem('colab_registered_users')) || [];
 
-    // Если пользователь с таким именем уже есть в памяти
-    if (savedName && savedName.toLowerCase() === nameValue.toLowerCase()) {
-      // Проверяем пароль
-      if (savedPassword !== passwordValue) {
+    // Ищем, есть ли уже пользователь с таким именем
+    const existingUser = usersList.find(u => u.name.toLowerCase() === nameValue.toLowerCase());
+
+    if (existingUser) {
+      // Если юзер существует — проверяем пароль для входа
+      if (existingUser.password !== passwordValue) {
         alert("Неверный пароль для этого аккаунта!");
-        return; // Прерываем вход
+        return;
       }
     } else {
-      // Если это новый пользователь — сохраняем его новые данные
-      localStorage.setItem('colab_user_name', nameValue);
-      localStorage.setItem('colab_user_password', passwordValue);
-      localStorage.setItem('colab_user_status', statusValue);
+      // Если юзер новый — добавляем его в список
+      usersList.push({
+        name: nameValue,
+        password: passwordValue,
+        status: statusValue
+      });
+      localStorage.setItem('colab_registered_users', JSON.stringify(usersList));
     }
 
-    // Успешный вход
+    // Сохраняем текущего активного пользователя
+    localStorage.setItem('colab_user_name', nameValue);
+    localStorage.setItem('colab_user_password', passwordValue);
+    localStorage.setItem('colab_user_status', statusValue);
     localStorage.setItem('colab_is_logged_in', 'true');
+
+    // Переходим в профиль
     window.location.href = 'profile.html';
   });
 </script>
