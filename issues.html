@@ -122,6 +122,10 @@
     </div> 
 
     <script>
+        const isLoggedIn = localStorage.getItem('colab_is_logged_in');
+if (isLoggedIn !== 'true') {
+  window.location.href = 'register.html';
+}
       const currentUser = localStorage.getItem('colab_user_name') || 'Anonymous Student';
       const currentRole = localStorage.getItem('colab_user_status') || 'Student';
 
