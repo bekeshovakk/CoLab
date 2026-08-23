@@ -45,22 +45,36 @@
     </div> 
 
     <script>
-      const regForm = document.getElementById('regForm');
+  const regForm = document.getElementById('regForm');
 
-      regForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+  regForm.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        const nameValue = document.getElementById('nameInput').value;
-        const passwordValue = document.getElementById('passwordInput').value;
-        const statusValue = document.getElementById('statusSelect').value;
+    const nameValue = document.getElementById('nameInput').value.trim();
+    const passwordValue = document.getElementById('passwordInput').value;
+    const statusValue = document.getElementById('statusSelect').value;
 
-        localStorage.setItem('colab_user_name', nameValue);
-        localStorage.setItem('colab_user_password', passwordValue);
-        localStorage.setItem('colab_user_status', statusValue);
-        localStorage.setItem('colab_is_logged_in', 'true');
+    const savedName = localStorage.getItem('colab_user_name');
+    const savedPassword = localStorage.getItem('colab_user_password');
 
-        window.location.href = 'profile.html';
-      });
-    </script>
+    // Если пользователь с таким именем уже есть в памяти
+    if (savedName && savedName.toLowerCase() === nameValue.toLowerCase()) {
+      // Проверяем пароль
+      if (savedPassword !== passwordValue) {
+        alert("Неверный пароль для этого аккаунта!");
+        return; // Прерываем вход
+      }
+    } else {
+      // Если это новый пользователь — сохраняем его новые данные
+      localStorage.setItem('colab_user_name', nameValue);
+      localStorage.setItem('colab_user_password', passwordValue);
+      localStorage.setItem('colab_user_status', statusValue);
+    }
+
+    // Успешный вход
+    localStorage.setItem('colab_is_logged_in', 'true');
+    window.location.href = 'profile.html';
+  });
+</script>
 </body>
 </html>
