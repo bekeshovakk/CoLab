@@ -31,20 +31,17 @@
 
     <!-- Скрипт, который автоматически берет имя из памяти -->
     <script>
-      // Читаем имя из памяти браузера
-      const savedName = localStorage.getItem('colab_user_name');
-      const savedStatus = localStorage.getItem('colab_user_status');
+  const isLoggedIn = localStorage.getItem('colab_is_logged_in');
+  const savedName = localStorage.getItem('colab_user_name');
 
-      // Если имя есть в памяти, подставляем его в <h1>
-      if (savedName) {
-        document.getElementById('userName').textContent = savedName;
-      } else {
-        document.getElementById('userName').textContent = 'Guest';
-      }
-
-      if (savedStatus) {
-        document.getElementById('userStatus').textContent = savedStatus;
-      }
-    </script>
+  // Если пользователь НЕ вошел — отправляем регистрироваться
+  if (isLoggedIn !== 'true' || !savedName) {
+    window.location.href = 'register.html';
+  } else {
+    // Если вошел — подставляем имя и роль
+    document.getElementById('userName').textContent = savedName;
+    document.getElementById('userStatus').textContent = localStorage.getItem('colab_user_status') || 'Student';
+  }
+</script>
 </body>
 </html>
