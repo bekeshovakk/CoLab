@@ -12,11 +12,13 @@
         <div class="container header-inner">
             <section class="id"><span class="logo"> CoLab</span></section>
             <nav aria-label="Основная навигация">
-                <ul>
-                    <li><a href="profile.html"> PROFILE </a></li>
-                    <li><a href="issues.html"> PROBLEMS & SOLUTIONS </a></li>
-                </ul>
-            </nav>
+    <ul>
+        <li><a href="profile.html"> PROFILE </a></li>
+        <li><a href="issues.html"> PROBLEMS & SOLUTIONS </a></li>
+        <!-- Кнопка выхода -->
+        <li><a href="#" onclick="logoutUser(); return false;" style="color: #6b7280;"> LOG OUT </a></li>
+    </ul>
+</nav>
         </div>
     </header>
 
@@ -85,6 +87,16 @@
     // Переходим в профиль
     window.location.href = 'profile.html';
   });
+        function logoutUser() {
+  // Убираем флаг активного входа
+  localStorage.removeItem('colab_is_logged_in');
+  
+  // При желании можно очистить и имя текущего пользователя:
+  // localStorage.removeItem('colab_user_name');
+
+  // Перенаправляем на страницу регистрации
+  window.location.href = 'register.html';
+}
 </script>
 </body>
 </html>
